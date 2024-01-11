@@ -57,9 +57,11 @@ jobs:
       name: Prepare Release
       run: |
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git
-        Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloader.git
+        Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
         Copy-Item -Path ${{github.workspace}}\MD\build\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloader.git
         Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
+        
+        echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
       name: Make release      
       uses: ncipollo/release-action@v1
@@ -68,3 +70,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"  
         allowUpdates: true
+        body: "This build was made on: ${{ env.CURRENT_TIME }}"
