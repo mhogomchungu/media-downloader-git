@@ -55,6 +55,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/MD/build
     -
       name: Prepare Release
+      run: |
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git
         Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloader.git
         Copy-Item -Path ${{github.workspace}}\MD\build\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloader.git
