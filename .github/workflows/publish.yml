@@ -14,7 +14,8 @@ jobs:
     -
       uses: actions/checkout@v2
       with: 
-         repository: mhogomchungu/media-downloader         
+         repository: mhogomchungu/media-downloader    
+         path: MD
     -
      name: Uninstall packages
      run: |
@@ -45,20 +46,16 @@ jobs:
           c++.exe --version
     -
       name: Configure CMake
-      working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}"
         msystem: MINGW32
-      run: cmake -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
+      run: cmake -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/MD/build
     -
       name: Build Project
-      env:
-        msystem: MINGW32
-      working-directory: ${{github.workspace}}/build
-      run: cmake --build ${{github.workspace}}\build
+      run: cmake --build ${{github.workspace}}/MD/build
     -
       name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-       path: ${{github.workspace}}\build\media-downloader.exe
+       path: ${{github.workspace}}\MD\build\media-downloader.exe
        
