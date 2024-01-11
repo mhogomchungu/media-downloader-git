@@ -61,5 +61,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: ${{github.workspace}}/MD/build/media-downloader.exe
-        tag: "Forst"
-        commit: "94951c8"      
+        tag: "First"
+        commit: "94951c8"  
+        allowUpdates: true
