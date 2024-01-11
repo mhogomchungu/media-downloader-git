@@ -49,7 +49,7 @@ jobs:
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}"
         msystem: MINGW32
-      run: cmake -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/MD/build
+      run: cmake -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build
     -
       name: Build Project
       run: cmake --build ${{github.workspace}}/MD/build
