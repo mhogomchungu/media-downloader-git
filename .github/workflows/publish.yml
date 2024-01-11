@@ -25,10 +25,18 @@ jobs:
       uses: msys2/setup-msys2@v2
       with:
             install: mingw-w64-i686-gcc
-            msystem: mingw32        
+            msystem: mingw32   
+            location: ${{github.workspace}}
     -
       name: update env
-      run:  echo "D:/a/_temp/msys64/mingw32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      run:  |
+         echo "${{github.workspace}}/_temp/msys64/mingw32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+         echo "${{github.workspace}}/msys64/mingw32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    -
+      name: Check GCC version and path
+      run: |
+          Write-Output (Get-Command c++.exe).Path
+          c++.exe --version 
     -
       name: Install Qt
       uses: jurplel/install-qt-action@v2
@@ -39,11 +47,6 @@ jobs:
         install-deps: "true"
         host: 'windows'
         target: 'desktop'
-    -
-      name: Check GCC version and path
-      run: |
-          Write-Output (Get-Command c++.exe).Path
-          c++.exe --version
     -
       name: Configure CMake
       env:
