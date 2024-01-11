@@ -58,6 +58,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: ${{github.workspace}}/MD/build/media-downloader.exe
-        tag: "First"
+        tag: "0.0.0"
         commit: "94951c8"  
         allowUpdates: true
