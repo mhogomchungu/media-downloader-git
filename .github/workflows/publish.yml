@@ -54,9 +54,6 @@ jobs:
       name: Build Project
       run: cmake --build ${{github.workspace}}/MD/build
     -
-      name: Prepare release
-      
-    -
       name: Make release      
       uses: ncipollo/release-action@v1
       with:
