@@ -7,6 +7,7 @@ The archive contains only the executable and translation
 files and you are supposed to manually update your installation
 with contents of the archive.
 
-Path to the give archive is below
+Link to the archive and information of when the archive was
+made is below.
 
 https://github.com/mhogomchungu/media-downloader-git/releases/tag/0.0.0
