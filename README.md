@@ -4,8 +4,8 @@ This repository contains archive of windows executable
 of the latest git commit of Media Downloader.
 
 The archive contains only the executable and translation
-files and you are supposed to manually update your installation
-with contents of the archive.
+files and you are supposed to manually 
+update your installation with contents of the archive.
 
 Link to the archive and information of when the archive was
 made is below.
