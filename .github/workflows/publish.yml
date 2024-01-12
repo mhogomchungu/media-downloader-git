@@ -65,8 +65,12 @@ jobs:
         Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\MediaDownloader.git\libs.zip
 
         Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
-        Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\libs.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
+        Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\libs.zip -DestinationPath ${{github.workspace}}
 
+        Copy-Item ${{github.workspace}}\libcrypto-1_1.dll -Destination ${{github.workspace}}\MediaDownloader.git
+        Copy-Item ${{github.workspace}}\libssl-1_1.dll    -Destination ${{github.workspace}}\MediaDownloader.git
+        Copy-Item ${{github.workspace}}\msvcr100.dll      -Destination ${{github.workspace}}\MediaDownloader.git
+        
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\libs.zip
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
 
@@ -81,4 +85,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"  
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\n\n\"MediaDownloader.git.zip\" contains portable version of the latest changes."
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\n\n\"MediaDownloader.git.zip\" archive contains portable version of the latest git changes."
