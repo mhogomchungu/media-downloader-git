@@ -54,6 +54,7 @@ jobs:
       name: Prepare Release
       run: |
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git
+        New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git/local
         Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
         Copy-Item -Path ${{github.workspace}}\MD\build\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloader.git
         Set-Location ${{github.workspace}}\MediaDownloader.git
@@ -61,6 +62,15 @@ jobs:
         ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/windeployqt.exe ${{github.workspace}}\MediaDownloader.git\media-downloader.exe
                
         Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
+
+        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
+        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\MediaDownloader.git\libs.zip
+
+        Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
+        Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\libs.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
+
+        Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\libs.zip
+        Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
         
         echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
