@@ -67,9 +67,7 @@ jobs:
         Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
         Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\libs.zip -DestinationPath ${{github.workspace}}
 
-        Copy-Item ${{github.workspace}}\libcrypto-1_1.dll -Destination ${{github.workspace}}\MediaDownloader.git
-        Copy-Item ${{github.workspace}}\libssl-1_1.dll    -Destination ${{github.workspace}}\MediaDownloader.git
-        Copy-Item ${{github.workspace}}\msvcr100.dll      -Destination ${{github.workspace}}\MediaDownloader.git
+        Copy-Item ${{github.workspace}}\libs -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
         
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\libs.zip
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
