@@ -60,9 +60,7 @@ jobs:
         Set-Location ${{github.workspace}}\MediaDownloader.git
         
         ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/windeployqt.exe ${{github.workspace}}\MediaDownloader.git\media-downloader.exe
-               
-        Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
-
+              
         Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
         Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\MediaDownloader.git\libs.zip
 
@@ -71,7 +69,9 @@ jobs:
 
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\libs.zip
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
-        
+
+        Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
+
         echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
       name: Make release      
@@ -81,4 +81,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"  
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\n\n\"MediaDownloader.git.zip\" archive contains only the executable and translation files and you are supposed to manually update your installation with contents of the archive."
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\n\n\"MediaDownloader.git.zip\" contains portable version of the latest changes."
