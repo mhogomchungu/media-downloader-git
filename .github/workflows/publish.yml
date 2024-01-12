@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
     steps:
     -
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with: 
          repository: mhogomchungu/media-downloader    
          path: MD
@@ -37,7 +37,7 @@ jobs:
           c++.exe --version 
     -
       name: Install Qt
-      uses: jurplel/install-qt-action@v2
+      uses: jurplel/install-qt-action@v3
       with:
         version: ${{ env.QT_VERSION }}
         arch: ${{ env.MINGW_VERSION }}
