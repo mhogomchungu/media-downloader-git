@@ -17,11 +17,7 @@ jobs:
          repository: mhogomchungu/media-downloader    
          path: MD
     -
-     name: Uninstall packages
-     run: |
-         choco uninstall strawberryperl --force
-    -
-      name: Install correct version of mingw
+      name: Install mingw
       uses: msys2/setup-msys2@v2
       with:
             install: mingw-w64-i686-gcc
@@ -63,7 +59,6 @@ jobs:
         Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
         
         echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
     -
       name: Make release      
       uses: ncipollo/release-action@v1
