@@ -57,7 +57,15 @@ jobs:
         Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
         Copy-Item -Path ${{github.workspace}}\MD\build\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloader.git
         Set-Location ${{github.workspace}}\MediaDownloader.git
-        ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/windeployqt.exe ${{github.workspace}}\MediaDownloader.git\media-downloader.exe --release
+
+        Copy-Item -Path ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/plugins/bearer -Destination ${{github.workspace}}\MediaDownloader.git/bearer -Recurse
+        Copy-Item -Path ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/plugins/iconengines -Destination ${{github.workspace}}\MediaDownloader.git/iconengines -Recurse
+        Copy-Item -Path ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/plugins/imageformats -Destination ${{github.workspace}}\MediaDownloader.git/imageformats -Recurse
+        Copy-Item -Path ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/plugins/platforms -Destination ${{github.workspace}}\MediaDownloader.git/platforms -Recurse
+        Copy-Item -Path ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/plugins/styles -Destination ${{github.workspace}}\MediaDownloader.git/styles -Recurse
+
+        ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/windeployqt.exe --no-plugins ${{github.workspace}}\MediaDownloader.git\media-downloader.exe --release
+               
         Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
         
         echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
