@@ -48,6 +48,14 @@ jobs:
         msystem: MINGW32
       run: cmake -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build
     -
+      name: Update version.h
+      run: |
+        $now = (Get-Date)
+        $then = (Get-Date -Year 2024 -Month 1 -Day 1)
+        $TotalMinutes = (New-TimeSpan -start $then -end $now).TotalMinutes
+        $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$TotalMinutes)
+        [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)      
+    -
       name: Build Project
       run: cmake --build ${{github.workspace}}/MD/build
     -
@@ -55,22 +63,21 @@ jobs:
       run: |
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git/local
+        New-Item -ItemType Directory -Path ${{github.workspace}}\tmp
+        
         Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
         Copy-Item -Path ${{github.workspace}}\MD\build\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloader.git
         Set-Location ${{github.workspace}}\MediaDownloader.git
         
         ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/windeployqt.exe ${{github.workspace}}\MediaDownloader.git\media-downloader.exe
               
-        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
-        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\MediaDownloader.git\libs.zip
+        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\tmp\3rdParty.zip
+        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\tmp\libs.zip
 
-        Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
-        Expand-Archive -Path ${{github.workspace}}\MediaDownloader.git\libs.zip -DestinationPath ${{github.workspace}}
+        Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
+        Expand-Archive -Path ${{github.workspace}}\tmp\libs.zip -DestinationPath ${{github.workspace}}\tmp
 
-        Copy-Item ${{github.workspace}}\libs\* -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
-        
-        Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\libs.zip
-        Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\3rdParty.zip
+        Copy-Item ${{github.workspace}}\tmp\libs\* -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
 
         Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
 
