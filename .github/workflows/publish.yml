@@ -52,7 +52,7 @@ jobs:
       run: |
         $now = (Get-Date)
         $then = (Get-Date -Year 2024 -Month 1 -Day 1)
-        $TotalMinutes = (New-TimeSpan -start $then -end $now).TotalMinutes.Split(".")[0]
+        $TotalMinutes = [Math]::Round(New-TimeSpan -start $then -end $now).TotalMinutes)
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$TotalMinutes)
         [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)  
 
