@@ -92,4 +92,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"  
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild number: ${{ env.BUILD_NUMBER }}\nGit tag: ${{ github.event.client_payload.ref }}\n\n\"MediaDownloader.git.zip\" archive contains Windows' portable version of the latest git changes."
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild number: ${{ env.BUILD_NUMBER }}\n\n\"MediaDownloader.git.zip\" archive contains Windows' portable version of the latest git changes."
