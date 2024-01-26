@@ -64,7 +64,7 @@ jobs:
         
         $versionInfo = $versionInfoFirstLine.Split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)[2]
 
-        $versionInfoFinal = $versionInfo.Replace("'", "")
+        $versionInfoFinal = [double]::Parse($versionInfo)
         
         echo "BUILD_VERSION=$versionInfoFinal" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
