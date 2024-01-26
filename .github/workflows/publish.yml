@@ -50,10 +50,16 @@ jobs:
     -
       name: Update version.h
       run: |
+
         $now = (Get-Date)
         $then = (Get-Date -Year 2024 -Month 1 -Day 1)
-        $TotalMinutes = [Math]::Round((New-TimeSpan -start $then -end $now).TotalMinutes)
-        $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$TotalMinutes)
+        $All = (New-TimeSpan -start $then -end $now)
+        $Hours=$All.Hours.ToString('##') 
+        $Days=$All.Days.ToString('##')
+        $Minutes=$All.Minutes.ToString('##') 
+        $Version=$Days+$Hours+$Minutes
+
+        $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$Version)
         [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)  
 
         $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h")
