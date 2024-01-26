@@ -63,10 +63,8 @@ jobs:
         $versionInfoFirstLine = $versionInfoLines[0]
         
         $versionInfo = $versionInfoFirstLine.Split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)[2]
-
-        $versionInfoFinal = [double]::Parse($versionInfo)
         
-        echo "BUILD_VERSION=$versionInfoFinal" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        echo "BUILD_VERSION=$versionInfo" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
       name: Build Project
       run: cmake --build ${{github.workspace}}/MD/build
