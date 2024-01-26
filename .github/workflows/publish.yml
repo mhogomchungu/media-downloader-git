@@ -56,7 +56,9 @@ jobs:
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$TotalMinutes)
         [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)  
 
-        echo "BUILD_NUMBER=$TotalMinutes" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        $versionInfo = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Split(" ")
+
+        echo "BUILD_VERSION=$versionInfo[2]" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
       name: Build Project
       run: cmake --build ${{github.workspace}}/MD/build
@@ -92,4 +94,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"  
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild number: ${{ env.BUILD_NUMBER }}\n\n\"MediaDownloader.git.zip\" archive contains Windows' portable version of the latest git changes."
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}\n\n\"MediaDownloader.git.zip\" archive contains Windows' portable version of the latest git changes."
