@@ -56,16 +56,20 @@ jobs:
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$TotalMinutes)
         [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)  
 
-        $versionInfoLines = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Split([Environment]::NewLine)
+        $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h")
+       
+        $versionInfoLines = $data.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
 
         $versionInfoFirstLine = $versionInfoLines[0]
         
-        $versionInfo = $versionInfoFirstLine.Split(" ")[2]
+        $versionInfo = $versionInfoFirstLine.Split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)[2]
 
-        $versionInfo = $versionInfo.Replace("`r", "")
+        echo "***********"
+        echo "$data"
+        echo "***********"
         
         echo "***********"
-        echo "$versionInfoLine"
+        echo "$versionInfoLines"
         echo "***********"
 
         echo "***********"
