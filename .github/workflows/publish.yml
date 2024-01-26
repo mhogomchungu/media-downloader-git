@@ -60,8 +60,13 @@ jobs:
 
         $versionNumber = $versionInfo[2]
 
+        echo "***********"
         echo "$versionNumber"
-        
+        echo "***********"
+        echo "***********"
+        "$versionNumber"
+        echo "***********"
+
         echo "BUILD_VERSION=$versionNumber" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
       name: Build Project
