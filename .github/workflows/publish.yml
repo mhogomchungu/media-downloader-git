@@ -53,10 +53,16 @@ jobs:
 
         $now = (Get-Date)
         $then = (Get-Date -Year 2024 -Month 1 -Day 1 -Hour 0 -Minute 0)
+       
         $All = (New-TimeSpan -start $then -end $now)
-        $Hours=$All.Hours.ToString('##') 
-        $Days=$All.Days.ToString('##')
-        $Minutes=$All.Minutes.ToString('##') 
+        
+        $Days=$All.Days.ToString()
+        $Hours=$All.Hours.ToString() 
+        $Minutes=$All.Minutes.ToString() 
+       
+        if($Hours.Length -eq 1){ $Hours = "0" + $Hours }
+        if($Minutes.Length -eq 1){ $Minutes = "0" + $Minutes }
+        
         $Version=$Days+$Hours+$Minutes
 
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$Version)
