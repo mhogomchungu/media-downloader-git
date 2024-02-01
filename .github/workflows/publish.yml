@@ -52,7 +52,7 @@ jobs:
       run: |
 
         $now = (Get-Date)
-        $then = (Get-Date -Year 2024 -Month 1 -Day 1 -Hour 0 -Minute 0)
+        $then = (Get-Date -Year 2024 -Month 2 -Day 1 -Hour 0 -Minute 0)
        
         $All = (New-TimeSpan -start $then -end $now)
         
