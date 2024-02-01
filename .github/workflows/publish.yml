@@ -65,6 +65,8 @@ jobs:
         
         $Version=$Days+$Hours+$Minutes
 
+        $Version=$Version.TrimStart("0")
+        
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$Version)
         [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)  
 
