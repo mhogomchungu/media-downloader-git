@@ -114,4 +114,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"  
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}\n\n\"MediaDownloader.git.zip\" archive contains Windows' portable version of the latest git changes."
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}\n\n\"MediaDownloader.git.zip\" and \"MediaDownloaderQt6.git.zip\" archives contains Windows' portable version of the latest git changes."
