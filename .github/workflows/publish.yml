@@ -112,7 +112,7 @@ jobs:
 
         echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
-      name: Compile .ISS to .EXE Installer
+      name: Make installer
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:
           path: MD/build/media-downloader_windows_installer_Qt5.iss
@@ -127,4 +127,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"  
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}\n\n\"MediaDownloader.git.zip\" and \"MediaDownloaderQt6.git.zip\" archives contains Windows' portable version of the latest git changes."
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}"
