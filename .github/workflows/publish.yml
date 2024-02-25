@@ -113,7 +113,7 @@ jobs:
       name: Compile .ISS to .EXE Installer
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:
-          path: ${{github.workspace}}/MD/build/media-downloader_windows_installer_Qt5.iss
+          path: MD/build/media-downloader_windows_installer_Qt5.iss
     -
       name: Make release      
       uses: ncipollo/release-action@v1
