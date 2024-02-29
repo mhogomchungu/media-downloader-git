@@ -96,11 +96,6 @@ jobs:
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build5\version.h").Replace("git_tag",${{ env.GIT_VERSION_NUMBER }})       
         [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build5\version.h",$content )
     -   
-      name: Update version.h for Qt6
-      run: |      
-          $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build6\version.h").Replace("git_tag",${{ env.GIT_VERSION_NUMBER }})       
-          [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build6\version.h",$content )
-    -
       name: Prepare release date
       run: |      
 
@@ -118,7 +113,7 @@ jobs:
       run: cmake --build ${{github.workspace}}/MD/build5
     -
       name: update env for Qt6
-      run: echo "${{github.workspace}}/qt/Qt/Tools/mingw1310_64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      run: echo "${{github.workspace}}/qt6/Qt/Tools/mingw1310_64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     -
       name: Check GCC version and path for Qt6
       run: |
@@ -133,6 +128,11 @@ jobs:
     -
       name: Print installer script for Qt6
       run : get-content ${{github.workspace}}\MD\build6\media-downloader_windows_installer_Qt6.iss
+    -
+      name: Update version.h for Qt6
+      run: |      
+          $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build6\version.h").Replace("git_tag",${{ env.GIT_VERSION_NUMBER }})       
+          [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build6\version.h",$content )
     -
       name: Build Project for Qt6
       run: cmake --build ${{github.workspace}}/MD/build6
