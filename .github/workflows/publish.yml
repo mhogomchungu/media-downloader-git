@@ -87,10 +87,12 @@ jobs:
 
         $Version=$Version.TrimStart("0")
 
-        $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$Version)
-        [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)
+        $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build5\version.h").Replace("git_tag",$Version)
+       
+        [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build5\version.h", $content)
+        [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build6\version.h", $content)
 
-        $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h")
+        $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build5\version.h")
 
         $versionInfoLines = $data.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
 
