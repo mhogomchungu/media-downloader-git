@@ -49,8 +49,8 @@ jobs:
       name: Install Qt6
       uses: jurplel/install-qt-action@v3
       with:
-        version: ${{ env.QT_VERSION }}
-        arch: ${{ env.MINGW_VERSION }}
+        version: ${{ env.QT6_VERSION }}
+        arch: ${{ env.MINGW6_VERSION }}
         dir: "${{github.workspace}}/qt6"
         install-deps: "true"
         host: 'windows'
