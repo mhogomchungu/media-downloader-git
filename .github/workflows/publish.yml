@@ -1,8 +1,12 @@
 name: Repository Dispatch
 env:
-  QT_VERSION:     "5.15.2"
-  MINGW_VERSION:  "win32_mingw81"
-  MINGW_PATH:     "mingw81_32"
+  QT5_VERSION:     "5.15.2"
+  MINGW5_VERSION:  "win32_mingw81"
+  MINGW5_PATH:     "mingw81_32"
+  QT6_VERSION:     "6.6.2"
+  MINGW6_VERSION:  "win64_mingw"
+  MINGW6_PATH:     "mingw_64"
+
   BUILD_TYPE:      Release
 on:
   repository_dispatch:
@@ -13,93 +17,124 @@ jobs:
     steps:
     -
       uses: actions/checkout@v4
-      with: 
-         repository: mhogomchungu/media-downloader    
+      with:
+         repository: mhogomchungu/media-downloader
          path: MD
     -
       name: Install mingw
       uses: msys2/setup-msys2@v2
       with:
             install: mingw-w64-i686-gcc
-            msystem: mingw32   
+            msystem: mingw32
             location: ${{github.workspace}}
     -
-      name: update env
+      name: update env for Qt5
       run: echo "${{github.workspace}}/msys64/mingw32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
     -
       name: Check GCC version and path
       run: |
           Write-Output (Get-Command c++.exe).Path
-          c++.exe --version 
+          c++.exe --version
     -
-      name: Install Qt
+      name: Install Qt5
       uses: jurplel/install-qt-action@v3
       with:
-        version: ${{ env.QT_VERSION }}
-        arch: ${{ env.MINGW_VERSION }}
-        dir: "${{github.workspace}}/qt"
+        version: ${{ env.QT5_VERSION }}
+        arch: ${{ env.MINGW5_VERSION }}
+        dir: "${{github.workspace}}/qt5"
         install-deps: "true"
         host: 'windows'
         target: 'desktop'
     -
-      name: Configure CMake
-      env:
-        CMAKE_PREFIX_PATH: "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}"
-        msystem: MINGW32
-      run: cmake -DOUTPUT_BASE_NAME=MediaDownloader -DLIBRARIES_LOCATION=${{github.workspace}}\MediaDownloader.git\ -DOUTPUT_PATH=${{github.workspace}}\ -DSOURCE_PATH=${{github.workspace}}\MD\ -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build
+      name: Install Qt6
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{ env.QT_VERSION }}
+        arch: ${{ env.MINGW_VERSION }}
+        dir: "${{github.workspace}}/qt6"
+        install-deps: "true"
+        host: 'windows'
+        target: 'desktop'
+        tools: 'tools_mingw1310'
     -
-      name: Print installer script
-      run : get-content ${{github.workspace}}\MD\build\media-downloader_windows_installer_Qt5.iss
+      name: Configure CMake for Qt5
+      env:
+        CMAKE_PREFIX_PATH: "${{github.workspace}}/qt5/Qt/${{ env.QT5_VERSION }}"
+        msystem: MINGW32
+      run: cmake -DOUTPUT_BASE_NAME=MediaDownloaderQt5 -DLIBRARIES_LOCATION=${{github.workspace}}\MediaDownloader.git\ -DOUTPUT_PATH=${{github.workspace}}\ -DSOURCE_PATH=${{github.workspace}}\MD\ -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build5
+    -
+      name: Print installer script for Qt5
+      run : get-content ${{github.workspace}}\MD\build5\media-downloader_windows_installer_Qt5.iss
     -
       name: Update version.h
       run: |
 
         $now = (Get-Date)
         $then = (Get-Date -Year 2024 -Month 2 -Day 1 -Hour 0 -Minute 0)
-       
+
         $All = (New-TimeSpan -start $then -end $now)
-        
+
         $Days=$All.Days.ToString()
-        $Hours=$All.Hours.ToString() 
-        $Minutes=$All.Minutes.ToString() 
-       
+        $Hours=$All.Hours.ToString()
+        $Minutes=$All.Minutes.ToString()
+
         if($Hours.Length -eq 1){ $Hours = "0" + $Hours }
         if($Minutes.Length -eq 1){ $Minutes = "0" + $Minutes }
-        
+
         $Version=$Days+$Hours+$Minutes
 
         $Version=$Version.TrimStart("0")
-        
+
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h").Replace("git_tag",$Version)
-        [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)  
+        [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build\version.h", $content)
 
         $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build\version.h")
-       
+
         $versionInfoLines = $data.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
 
         $versionInfoFirstLine = $versionInfoLines[0]
-        
+
         $versionInfo = $versionInfoFirstLine.Split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)[2]
-        
+
         echo "BUILD_VERSION=$versionInfo" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+        echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     -
-      name: Build Project
-      run: cmake --build ${{github.workspace}}/MD/build
+      name: Build Project for Qt5
+      run: cmake --build ${{github.workspace}}/MD/build5
     -
-      name: Prepare Release
+      name: update env for Qt6
+      run: echo "${{github.workspace}}/qt/Qt/Tools/mingw1310_64/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    -
+      name: Configure CMake for Qt6
+      env:
+        CMAKE_PREFIX_PATH: "${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}"
+        msystem: MINGW32
+      run: cmake -DOUTPUT_BASE_NAME=MediaDownloaderQt6 -DLIBRARIES_LOCATION=${{github.workspace}}\MediaDownloader.git\ -DOUTPUT_PATH=${{github.workspace}}\ -DSOURCE_PATH=${{github.workspace}}\MD\ -DBUILD_WITH_QT6=true -DCMAKE_VERBOSE_MAKEFILE=TRUE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build6
+   -
+      name: Print installer script for Qt6
+      run : get-content ${{github.workspace}}\MD\build6\media-downloader_windows_installer_Qt6.iss
+    -
+      name: Build Project for Qt6
+      run: cmake --build ${{github.workspace}}/MD/build6
+   -
+      name: Download libs
+      run: |
+         New-Item -ItemType Directory -Path ${{github.workspace}}\tmp
+         Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\tmp\3rdParty.zip
+         Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\tmp\libs.zip
+   -
+      name: Create MediaDownloader.git.zip
       run: |
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git/local
-        New-Item -ItemType Directory -Path ${{github.workspace}}\tmp
-        
+
         Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
-        Copy-Item -Path ${{github.workspace}}\MD\build\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloader.git
+        Copy-Item -Path ${{github.workspace}}\MD\build5\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloader.git
+
         Set-Location ${{github.workspace}}\MediaDownloader.git
-        
-        ${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin/windeployqt.exe ${{github.workspace}}\MediaDownloader.git\media-downloader.exe
-              
-        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\tmp\3rdParty.zip
-        Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\tmp\libs.zip
+
+        ${{github.workspace}}/qt5/Qt/${{ env.QT5_VERSION }}/${{ env.MINGW5_PATH }}/bin/windeployqt.exe ${{github.workspace}}\MediaDownloader.git\media-downloader.exe
 
         Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloader.git
         Expand-Archive -Path ${{github.workspace}}\tmp\libs.zip -DestinationPath ${{github.workspace}}\tmp
@@ -109,22 +144,47 @@ jobs:
         Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
 
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git/local
-
-        echo "CURRENT_TIME=$((Get-Date).ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-    -
-      name: Make installer
+   -
+      name: Make installer for Qt5
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:
-          path: MD/build/media-downloader_windows_installer_Qt5.iss
+          path: MD/build5/media-downloader_windows_installer_Qt5.iss
     -
-      name: Rename MediaDownloader.exe
-      run: Rename-Item -Path ${{github.workspace}}\MediaDownloader.exe -NewName ${{github.workspace}}\MediaDownloader.git.setup.exe
+      name: Create MediaDownloaderQt6.git.zip
+      run: |
+        New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloaderQt6.git
+        New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloaderQt6.git/local
+
+        Copy-Item -Path ${{github.workspace}}\MD\translations -Destination ${{github.workspace}}\MediaDownloaderQt6.git -Recurse
+        Copy-Item -Path ${{github.workspace}}\MD\build6\media-downloader.exe -Destination ${{github.workspace}}\MediaDownloaderQt6.git
+
+        Set-Location ${{github.workspace}}\MediaDownloaderQt6.git
+
+        ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/${{ env.MINGW6_PATH }}/bin/windeployqt6.exe ${{github.workspace}}\MediaDownloaderQt6.git\media-downloader.exe
+
+        Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloaderQt6.git
+
+        Copy-Item ${{github.workspace}}\tmp\libs\msvcr100.dll -Destination ${{github.workspace}}\MediaDownloaderQt6.git
+
+        Compress-Archive -Path ${{github.workspace}}\MediaDownloaderQt6.git -DestinationPath ${{github.workspace}}\MediaDownloaderQt6.git.zip
+
+        Remove-Item -Path ${{github.workspace}}\MediaDownloaderQt6.git/local
+   -
+      name: Make installer for Qt6
+      uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+      with:
+          path: MD/build6/media-downloader_windows_installer_Qt5.iss
     -
-      name: Make release      
+      name: Rename installers
+      run: |
+          Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt5.exe -NewName ${{github.workspace}}\MediaDownloader.git.setup.exe
+          Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt6.exe -NewName ${{github.workspace}}\MediaDownloaderQt6.git.setup.exe
+    -
+      name: Post Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}\MediaDownloader.git.zip,${{github.workspace}}\MediaDownloader.git.setup.exe
+        artifacts: ${{github.workspace}}\MediaDownloader.git.zip,${{github.workspace}}\MediaDownloader.git.setup.exe,${{github.workspace}}\MediaDownloaderQt6.git.zip,${{github.workspace}}\MediaDownloaderQt6.git.setup.exe
         tag: "0.0.0"
-        commit: "main"  
+        commit: "main"
         allowUpdates: true
         body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}"
