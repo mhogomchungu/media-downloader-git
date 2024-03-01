@@ -128,7 +128,7 @@ jobs:
 
         Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\local
 
-        Remove-Item -Path ${{github.workspace}}\MediaDownloaderQt5.git\version_info.txt
+        Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\version_info.txt
     -
       name: Make installer for Qt5
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
