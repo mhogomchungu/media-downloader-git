@@ -75,7 +75,7 @@ jobs:
         $Version=$Version.TrimStart("0")
 
         echo "GIT_VERSION_NUMBER=$Version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-    -
+    - 
       name: Configure CMake for Qt5
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt5/Qt/${{ env.QT5_VERSION }}"
@@ -93,6 +93,18 @@ jobs:
       name: Build Project for Qt5
       run: cmake --build ${{github.workspace}}/MD/build5
     -
+      name: Prepare release date
+      run: |  
+        $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build5\version.h")
+
+        $versionInfoLines = $data.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
+
+        $versionInfoFirstLine = $versionInfoLines[0]
+
+        $versionInfo = $versionInfoFirstLine.Split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)[2]
+
+        echo "BUILD_VERSION=$versionInfo" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    -   
       name: Create MediaDownloader.git.zip
       run: |
         New-Item -ItemType Directory -Path ${{github.workspace}}\MediaDownloader.git
@@ -110,9 +122,13 @@ jobs:
 
         Copy-Item ${{github.workspace}}\tmp\libs\* -Destination ${{github.workspace}}\MediaDownloader.git -Recurse
 
+        echo "${{ env.BUILD_VERSION }}" | Out-File -FilePath ${{github.workspace}}\MediaDownloaderQt5.git\version_info.txt -Encoding utf8 -Append
+
         Compress-Archive -Path ${{github.workspace}}\MediaDownloader.git -DestinationPath ${{github.workspace}}\MediaDownloader.git.zip
 
-        Remove-Item -Path ${{github.workspace}}\MediaDownloader.git/local
+        Remove-Item -Path ${{github.workspace}}\MediaDownloader.git\local
+
+        Remove-Item -Path ${{github.workspace}}\MediaDownloaderQt5.git\version_info.txt
     -
       name: Make installer for Qt5
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
@@ -171,9 +187,13 @@ jobs:
 
         Copy-Item ${{github.workspace}}\tmp\libs\msvcr100.dll -Destination ${{github.workspace}}\MediaDownloaderQt6.git
 
+        echo "${{ env.BUILD_VERSION }}" | Out-File -FilePath ${{github.workspace}}\MediaDownloaderQt6.git\version_info.txt -Encoding utf8 -Append
+
         Compress-Archive -Path ${{github.workspace}}\MediaDownloaderQt6.git -DestinationPath ${{github.workspace}}\MediaDownloaderQt6.git.zip
 
-        Remove-Item -Path ${{github.workspace}}\MediaDownloaderQt6.git/local
+        Remove-Item -Path ${{github.workspace}}\MediaDownloaderQt6.git\local
+
+        Remove-Item -Path ${{github.workspace}}\MediaDownloaderQt6.git\version_info.txt
     -
       name: Make installer for Qt6
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
@@ -185,18 +205,6 @@ jobs:
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt5.exe -NewName ${{github.workspace}}\MediaDownloader.git.setup.exe
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt6.exe -NewName ${{github.workspace}}\MediaDownloaderQt6.git.setup.exe
     -  
-      name: Prepare release date
-      run: |  
-        $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build5\version.h")
-
-        $versionInfoLines = $data.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
-
-        $versionInfoFirstLine = $versionInfoLines[0]
-
-        $versionInfo = $versionInfoFirstLine.Split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)[2]
-
-        echo "BUILD_VERSION=$versionInfo" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-    -    
       name: Post Releases
       uses: ncipollo/release-action@v1
       with:
