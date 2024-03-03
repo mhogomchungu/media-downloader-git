@@ -57,7 +57,7 @@ jobs:
       
         $now = (Get-Date)
         
-        $then = (Get-Date -Year 2024 -Month 2 -Day 1 -Hour 0 -Minute 0)
+        $then = (Get-Date -Year 2024 -Month 3 -Day 1 -Hour 0 -Minute 0)
 
         echo "CURRENT_TIME=$($now.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
