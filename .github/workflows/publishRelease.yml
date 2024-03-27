@@ -10,7 +10,7 @@ env:
   BUILD_TYPE:      Release
 on:
   repository_dispatch:
-    types: [PublishGit]
+    types: [PublishRelease]
 jobs:
   myEvent:
     runs-on: windows-latest
@@ -171,7 +171,7 @@ jobs:
     -
       name: Rename installers
       run: |
-          Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt5.exe -NewName ${{github.workspace}}\MediaDownloader-${{ env.RELEASEVERSION }}setup.exe
+          Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt5.exe -NewName ${{github.workspace}}\MediaDownloader-${{ env.RELEASEVERSION }}.setup.exe
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt6.exe -NewName ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe
     -
       name: Post Releases
