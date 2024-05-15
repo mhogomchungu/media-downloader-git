@@ -1,25 +1,17 @@
 name: Repository Dispatch
-
-on:
-  push:
-    branches:
-    - main
-    tags-ignore:
-    - '*'
 env:
   QT6_VERSION:     "6.6.2"
-  BUILD_TYPE:      Release
 on:
   repository_dispatch:
     types: [PublishMacGit]
 jobs:
-  buildGitEvent:
+  buildMacGitEvent:
     runs-on: macos-latest
     steps:
     -
       uses: actions/checkout@v4
       with:
-         repository: mhogomchungu/media-downloader-mac
+         repository: mhogomchungu/media-downloader
          path: MAC
     -
       name: Install Qt6
