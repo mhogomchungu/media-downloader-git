@@ -1,4 +1,4 @@
-name: Repository Dispatch
+name: Repository Dispatch MacOS
 env:
   QT6_VERSION:     "6.6.2"
 on:
