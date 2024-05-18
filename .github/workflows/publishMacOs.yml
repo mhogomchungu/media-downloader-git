@@ -45,6 +45,9 @@ jobs:
            cd ${{github.workspace}}/MAC/build6/media-downloader.app/Contents/MacOS/extra
            tar -xf ffmpeg.macos.zip
            rm -rf ffmpeg.macos.zip
+           tar --version
+           echo "-------"
+           ffmpeg --version
     -
       name: Create .img Bundle
       run: ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 ${{github.workspace}}/MAC/build6/media-downloader.app -dmg
