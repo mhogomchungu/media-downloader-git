@@ -45,6 +45,9 @@ jobs:
            cd ${{github.workspace}}/MAC/build6/media-downloader.app/Contents/MacOS/extra
            tar -xf ffmpeg.macos.zip
            rm -rf ffmpeg.macos.zip
+           echo "------"
+           ls ./*
+           echo "------"
            tar --version
            echo "-------"
            ffmpeg --version
