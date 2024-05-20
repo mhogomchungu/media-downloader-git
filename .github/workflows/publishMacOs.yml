@@ -49,7 +49,7 @@ jobs:
            version=`cat ${{github.workspace}}/MAC/build6/VERSION_INFO`
            echo -n "VERSION_INFO=$version" >> "$GITHUB_ENV"
            cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloader.git.dmg
-           cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloader-${{ env.VERSION_INFO }}.dmg
+           cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloader-$version.dmg
            ls ${{github.workspace}}/MAC/build6/
     -
       name: Post Bundle
