@@ -34,10 +34,10 @@ jobs:
     -
       name: Download 3rdParty Apps
       run: |
-           mkdir ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra
-           #aria2c -d ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra https://github.com/yt-dlp/yt-dlp/releases/download/2024.04.09/yt-dlp_macos
+           mkdir -p ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra
+           mkdir -p ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Resources
            aria2c -d ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/ffmpeg.macos.zip
-           cp ${{github.workspace}}/MAC/src/media-downloader.icns ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Contents/Resources/MediaDownloader.icns
+           cp ${{github.workspace}}/MAC/src/media-downloader.icns ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Resources/MediaDownloader.icns
            cd ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra
            tar -xf ffmpeg.macos.zip
            rm -rf ffmpeg.macos.zip
