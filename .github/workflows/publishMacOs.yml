@@ -37,14 +37,16 @@ jobs:
            mkdir ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra
            #aria2c -d ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra https://github.com/yt-dlp/yt-dlp/releases/download/2024.04.09/yt-dlp_macos
            aria2c -d ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/ffmpeg.macos.zip
-           cp ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Contents/Resources/media-downloader.icns ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Contents/Resources/MediaDownloader.icns
+           cp ${{github.workspace}}/MAC/src/media-downloader.icns ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Contents/Resources/MediaDownloader.icns
            cd ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/MacOS/extra
            tar -xf ffmpeg.macos.zip
            rm -rf ffmpeg.macos.zip
-           ls ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Contents/Resources/
     -
       name: Create img Bundle
-      run: ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 ${{github.workspace}}/MAC/build6/MediaDownloader.app -dmg
+      run: |
+           ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 ${{github.workspace}}/MAC/build6/MediaDownloader.app -dmg
+           ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/macos/bin/macdeployqt6 ${{github.workspace}}/MAC/build6/MediaDownloader.app
+           ls ${{github.workspace}}/MAC/build6/MediaDownloader.app/Contents/Resources/
     -
       name: Rename Bundle
       run: |
