@@ -46,7 +46,7 @@ jobs:
     -
       name: Rename Bundle
       run: |
-           version=`cat ${{github.workspace}}/MAC/build6/VERSION`
+           version=`cat ${{github.workspace}}/MAC/build6/VERSION_INFO`
            cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloader.git.dmg
            cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloader-$version.dmg
            ls ${{github.workspace}}/MAC/build6/*
