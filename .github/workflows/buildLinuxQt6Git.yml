@@ -1,4 +1,4 @@
-name: Build Linux Qt6 Git
+name: Repository Dispatch Linux Qt6
 
 on:
   repository_dispatch:
