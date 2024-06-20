@@ -29,7 +29,7 @@ jobs:
       name: Configure CMake
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}"
-      run: cmake -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/MD -DBUILD_WITH_QT6=true -DSOURCE_PATH=${{github.workspace}}/Linux/ -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=RELEASE -S ${{github.workspace}}/Linux/ -B ${{github.workspace}}/Linux/build6
+      run: cmake -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/MD -DSOURCE_PATH=${{github.workspace}}/Linux/ -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=RELEASE -S ${{github.workspace}}/Linux/ -B ${{github.workspace}}/Linux/build6
     -
       name: Build
       run: cmake --build ${{github.workspace}}/Linux/build6
