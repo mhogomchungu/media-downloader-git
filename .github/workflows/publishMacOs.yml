@@ -53,12 +53,12 @@ jobs:
     -
       name: Rename Bundle
       run: |
-           cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloader.git.dmg
+           cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg
     -
       name: Post Bundle
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}/MAC/build6/MediaDownloader.git.dmg
+        artifacts: ${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
