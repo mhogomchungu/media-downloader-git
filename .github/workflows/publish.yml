@@ -51,6 +51,7 @@ jobs:
          New-Item -ItemType Directory -Path ${{github.workspace}}\tmp
          Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\tmp\3rdParty.zip
          Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\tmp\libs.zip
+         Invoke-WebRequest "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_x86.exe" -OutFile ${{github.workspace}}\tmp\yt-dlp_x86.exe
     -
       name: Set Build time
       run: | 
@@ -120,6 +121,9 @@ jobs:
         Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloaderQt5.git
         Expand-Archive -Path ${{github.workspace}}\tmp\libs.zip -DestinationPath ${{github.workspace}}\tmp
 
+        Remove-Item ${{github.workspace}}\MediaDownloaderQt5.git\3rdParty\ytdlp\yt-dlp_x86.exe
+        Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt5.git\3rdParty\ytdlp\yt-dlp_x86.exe
+       
         Copy-Item ${{github.workspace}}\tmp\libs\* -Destination ${{github.workspace}}\MediaDownloaderQt5.git -Recurse
 
         $bb = ${{ env.BUILD_VERSION }}
@@ -190,6 +194,9 @@ jobs:
 
         Copy-Item ${{github.workspace}}\tmp\libs\msvcr100.dll -Destination ${{github.workspace}}\MediaDownloaderQt6.git
 
+        Remove-Item ${{github.workspace}}\MediaDownloaderQt6.git\3rdParty\ytdlp\yt-dlp_x86.exe
+        Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt6.git\3rdParty\ytdlp\yt-dlp_x86.exe
+        
         $bb = ${{ env.BUILD_VERSION }}
         $bb = $bb.Trim() 
         
