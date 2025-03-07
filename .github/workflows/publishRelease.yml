@@ -174,10 +174,19 @@ jobs:
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt5.exe -NewName ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt6.exe -NewName ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe
     -
+      name: Get Hashes
+      run: | 
+          $MediaDownloaderQt5a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip).Hash 
+          $MediaDownloaderQt5b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe).Hash 
+          $MediaDownloaderQt6a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip).Hash 
+          $MediaDownloaderQt6b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe).Hash 
+
+          echo "$MediaDownloaderQt5a MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt6a ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip`n$MediaDownloaderQt5b ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe`n$MediaDownloaderQt6b ${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe" | Out-File -FilePath ${{github.workspace}}\zWindowsReleaseHashes.txt -Encoding utf8 -Append 
+    -
       name: Post Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe
+        artifacts: ${{github.workspace}}\zWindowsReleaseHashes.txt,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
