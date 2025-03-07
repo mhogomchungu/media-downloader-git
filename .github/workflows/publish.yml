@@ -218,7 +218,7 @@ jobs:
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt5.exe -NewName ${{github.workspace}}\MediaDownloaderQt5.git.setup.exe
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt6.exe -NewName ${{github.workspace}}\MediaDownloaderQt6.git.setup.exe
     -  
-      name: Print Hashes
+      name: Get Hashes
       run: | 
           $MediaDownloaderQt5a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5.git.zip).Hash 
           $MediaDownloaderQt6a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6.git.zip).Hash 
