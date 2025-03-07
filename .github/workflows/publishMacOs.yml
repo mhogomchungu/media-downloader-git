@@ -55,10 +55,15 @@ jobs:
       run: |
            cp ${{github.workspace}}/MAC/build6/MediaDownloader.dmg ${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg
     -
+     name: Get Hash
+     run: | 
+          $hash = (Get-FileHash ${{github.workspace}}\MAC\build6\MediaDownloaderQt6.git.dmg).Hash 
+          echo "$hash MediaDownloaderQt6.git.dmg" | Out-File -FilePath ${{github.workspace}}\zMacOsGitHash.txt -Encoding utf8 -Append 
+    -
       name: Post Bundle
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg
+        artifacts: ${{github.workspace}}\zMacOsGitHash.txt,${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
