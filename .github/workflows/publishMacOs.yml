@@ -57,12 +57,13 @@ jobs:
     -
      name: Get Hash
      run: | 
-          shasum -a 256 ${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg > ${{github.workspace}}/zMacOsGitHash.txt
+          cd ${{github.workspace}}/MAC/build6
+          shasum -a 256 MediaDownloaderQt6.git.dmg > ${{github.workspace}}/ZMacOsGitHash.txt
     -
       name: Post Bundle
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}/zMacOsGitHash.txt,${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg
+        artifacts: ${{github.workspace}}/ZMacOsGitHash.txt,${{github.workspace}}/MAC/build6/MediaDownloaderQt6.git.dmg
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
