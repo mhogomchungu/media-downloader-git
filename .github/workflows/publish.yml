@@ -218,10 +218,19 @@ jobs:
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt5.exe -NewName ${{github.workspace}}\MediaDownloaderQt5.git.setup.exe
           Rename-Item -Path ${{github.workspace}}\MediaDownloaderQt6.exe -NewName ${{github.workspace}}\MediaDownloaderQt6.git.setup.exe
     -  
+      name: Print Hashes
+      run: | 
+          @MediaDownloaderQt5.git.zip = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5.git.zip).Hash 
+          @MediaDownloaderQt6.git.zip = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6.git.zip).Hash 
+          @MediaDownloaderQt5.git.setup.exe = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5.git.setup.exe).Hash 
+          @MediaDownloaderQt6.git.setup.exe = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6.git.setup.exe).Hash 
+
+          echo "MediaDownloaderQt5.git.zip $MediaDownloaderQt5.git.zip\nMediaDownloaderQt6.git.zip $MediaDownloaderQt6.git.zip\nMediaDownloaderQt5.git.setup.exe $MediaDownloaderQt5.git.setup.exe\nMediaDownloaderQt6.git.setup.exe $MediaDownloaderQt6.git.setup.exe" | Out-File -FilePath ${{github.workspace}}\zWindowsGitHashes.txt -Encoding utf8 -Append 
+    -
       name: Post Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}\MediaDownloaderQt5.git.zip,${{github.workspace}}\MediaDownloaderQt5.git.setup.exe,${{github.workspace}}\MediaDownloaderQt6.git.zip,${{github.workspace}}\MediaDownloaderQt6.git.setup.exe
+        artifacts: ${{github.workspace}}\zWindowsGitHashes.txt,${{github.workspace}}\MediaDownloaderQt5.git.zip,${{github.workspace}}\MediaDownloaderQt5.git.setup.exe,${{github.workspace}}\MediaDownloaderQt6.git.zip,${{github.workspace}}\MediaDownloaderQt6.git.setup.exe
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
