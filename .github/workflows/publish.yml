@@ -220,12 +220,12 @@ jobs:
     -  
       name: Print Hashes
       run: | 
-          $MediaDownloaderQt5.git.zip       = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5.git.zip).Hash 
-          $MediaDownloaderQt6.git.zip       = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6.git.zip).Hash 
-          $MediaDownloaderQt5.git.setup.exe = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5.git.setup.exe).Hash 
-          $MediaDownloaderQt6.git.setup.exe = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6.git.setup.exe).Hash 
+          $MediaDownloaderQt5a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5.git.zip).Hash 
+          $MediaDownloaderQt6a = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6.git.zip).Hash 
+          $MediaDownloaderQt5b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt5.git.setup.exe).Hash 
+          $MediaDownloaderQt6b = (Get-FileHash ${{github.workspace}}\MediaDownloaderQt6.git.setup.exe).Hash 
 
-          echo "MediaDownloaderQt5.git.zip $MediaDownloaderQt5.git.zip\nMediaDownloaderQt6.git.zip $MediaDownloaderQt6.git.zip\nMediaDownloaderQt5.git.setup.exe $MediaDownloaderQt5.git.setup.exe\nMediaDownloaderQt6.git.setup.exe $MediaDownloaderQt6.git.setup.exe" | Out-File -FilePath ${{github.workspace}}\zWindowsGitHashes.txt -Encoding utf8 -Append 
+          echo "MediaDownloaderQt5.git.zip $MediaDownloaderQt5a\nMediaDownloaderQt6.git.zip $MediaDownloaderQt6a\nMediaDownloaderQt5.git.setup.exe $MediaDownloaderQt5b\nMediaDownloaderQt6.git.setup.exe $MediaDownloaderQt6b" | Out-File -FilePath ${{github.workspace}}\zWindowsGitHashes.txt -Encoding utf8 -Append 
     -
       name: Post Releases
       uses: ncipollo/release-action@v1
