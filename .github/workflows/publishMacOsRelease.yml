@@ -61,7 +61,7 @@ jobs:
      name: Get Hash
      run: | 
           cd ${{github.workspace}}/MAC/build6
-          shasum -a 256 MediaDownloaderQt6-$version.dmg > ${{github.workspace}}/ZMacOsReleaseHash.txt
+          shasum -a 256 MediaDownloaderQt6-${{ env.VERSION_INFO }}.dmg > ${{github.workspace}}/ZMacOsReleaseHash.txt
     -
       name: Post Bundle
       uses: ncipollo/release-action@v1
