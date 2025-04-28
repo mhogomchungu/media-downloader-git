@@ -58,22 +58,9 @@ jobs:
       
         $now = (Get-Date)
         
-        $then = (Get-Date -Year 2025 -Month 03 -Day 24 -Hour 0 -Minute 0)
+        echo "CURRENT_TIME=$($now.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append       
 
-        echo "CURRENT_TIME=$($now.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-        $All = (New-TimeSpan -start $then -end $now)
-
-        $Days=$All.Days.ToString()
-        $Hours=$All.Hours.ToString()
-        $Minutes=$All.Minutes.ToString()
-
-        if($Hours.Length -eq 1){ $Hours = "0" + $Hours }
-        if($Minutes.Length -eq 1){ $Minutes = "0" + $Minutes }
-
-        $Version=$Days+$Hours+$Minutes
-
-        $Version=$Version.TrimStart("0")
+        $Version=(Get-Date -Format "yyyyMMddHHmm")
 
         echo "GIT_VERSION_NUMBER=$Version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     - 
