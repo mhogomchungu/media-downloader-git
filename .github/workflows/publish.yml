@@ -3,7 +3,7 @@ env:
   QT5_VERSION:     "5.15.2"
   MINGW5_VERSION:  "win32_mingw81"
   MINGW5_PATH:     "mingw81_32"
-  QT6_VERSION:     "6.8.1"
+  QT6_VERSION:     "6.8.3"
   MINGW6_VERSION:  "win64_mingw"
   MINGW6_PATH:     "mingw_64"
 
@@ -37,7 +37,7 @@ jobs:
           c++.exe --version
     -
       name: Install Qt5
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ env.QT5_VERSION }}
         arch: ${{ env.MINGW5_VERSION }}
@@ -130,7 +130,7 @@ jobs:
           path: MD/build5/media-downloader_windows_installer_Qt5.iss
     -
       name: Install Qt6
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: ${{ env.QT6_VERSION }}
         arch: ${{ env.MINGW6_VERSION }}
