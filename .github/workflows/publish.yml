@@ -3,7 +3,7 @@ env:
   QT5_VERSION:     "5.15.2"
   MINGW5_VERSION:  "win32_mingw81"
   MINGW5_PATH:     "mingw81_32"
-  QT6_VERSION:     "6.8.3"
+  QT6_VERSION:     "6.8.1"
   MINGW6_VERSION:  "win64_mingw"
   MINGW6_PATH:     "mingw_64"
 
@@ -52,17 +52,6 @@ jobs:
          Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/3rdParty.zip" -OutFile ${{github.workspace}}\tmp\3rdParty.zip
          Invoke-WebRequest "https://github.com/mhogomchungu/media-downloader-git/releases/download/0.0.0/libs.zip" -OutFile ${{github.workspace}}\tmp\libs.zip
          Invoke-WebRequest "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_x86.exe" -OutFile ${{github.workspace}}\tmp\yt-dlp_x86.exe
-    -
-      name: Set Build time
-      run: | 
-      
-        $now = (Get-Date)
-        
-        echo "CURRENT_TIME=$($now.ToString())" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append       
-
-        $Version=(Get-Date -Format "yyyyMMddHHmm")
-
-        echo "GIT_VERSION_NUMBER=$Version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     - 
       name: Configure CMake for Qt5
       env:
