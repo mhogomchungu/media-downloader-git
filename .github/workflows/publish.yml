@@ -125,7 +125,7 @@ jobs:
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{ env.QT6_VERSION }}
-        arch: ${{ env.MINGW6_VERSION }}
+        arch: "win64_mingw"
         dir: "${{github.workspace}}/qt6"
         install-deps: "true"
         host: 'windows'
@@ -166,7 +166,7 @@ jobs:
 
         Set-Location ${{github.workspace}}\MediaDownloaderQt6.git
 
-        ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/${{ env.MINGW6_PATH }}/bin/windeployqt6.exe ${{github.workspace}}\MediaDownloaderQt6.git\media-downloader.exe
+        ${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}/mingw_64/bin/windeployqt6.exe ${{github.workspace}}\MediaDownloaderQt6.git\media-downloader.exe
 
         Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloaderQt6.git
 
