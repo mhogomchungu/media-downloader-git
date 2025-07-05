@@ -2,11 +2,7 @@
 name: Repository Dispatch Windows
 env:
   QT5_VERSION:     "5.15.2"
-  MINGW5_VERSION:  "win32_mingw81"
-  MINGW5_PATH:     "mingw81_32"
   QT6_VERSION:     "6.8.1"
-  MINGW6_VERSION:  "win64_mingw"
-  MINGW6_PATH:     "mingw_64"
 
   BUILD_TYPE:      Release
 on:
@@ -44,12 +40,12 @@ jobs:
       uses: jurplel/install-qt-action@v4
       with:
         version: ${{ env.QT5_VERSION }}
-        arch: ${{ env.MINGW5_VERSION }}
+        arch: "win32_mingw81"
         dir: "${{github.workspace}}/qt5"
         install-deps: "true"
         host: 'windows'
         target: 'desktop'
-        tools: 'tools_mingw81 qt.tools.win32_mingw810'
+        tools: 'tools_mingw81,qt.tools.win32_mingw810'
     -
       name: update env for Qt5
       run: |
