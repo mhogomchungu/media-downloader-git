@@ -143,7 +143,7 @@ jobs:
       name: Configure CMake for Qt6
       env:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt6/Qt/${{ env.QT6_VERSION }}"
-      run: cmake -DOUTPUT_BASE_NAME=MediaDownloaderQt6 -DLIBRARIES_LOCATION=${{github.workspace}}\MediaDownloaderQt6.git\ -DOUTPUT_PATH=${{github.workspace}}\ -DSOURCE_PATH=${{github.workspace}}\MD\ -DBUILD_WITH_QT6=true -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build6
+      run: cmake -DOUTPUT_BASE_NAME=MediaDownloaderQt6 -DLIBRARIES_LOCATION=${{github.workspace}}\MediaDownloaderQt6.git\ -DOUTPUT_PATH=${{github.workspace}}\ -DSOURCE_PATH=${{github.workspace}}\MD\ -DBUILD_WITH_QT6=true -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build6
     -
       name: Print installer script for Qt6
       run : get-content ${{github.workspace}}\MD\build6\media-downloader_windows_installer_Qt6.iss
