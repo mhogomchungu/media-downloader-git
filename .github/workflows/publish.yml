@@ -70,7 +70,7 @@ jobs:
         CMAKE_PREFIX_PATH: "${{github.workspace}}/qt5/Qt/${{ env.QT5_VERSION }}"
         msystem: MINGW32
       run: |
-         cmake -DOUTPUT_BASE_NAME=MediaDownloaderQt5 -DLIBRARIES_LOCATION=${{github.workspace}}\MediaDownloaderQt5.git\ -DOUTPUT_PATH=${{github.workspace}}\ -DSOURCE_PATH=${{github.workspace}}\MD\ -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build5
+         cmake -DOUTPUT_BASE_NAME=MediaDownloaderQt5 -DLIBRARIES_LOCATION=${{github.workspace}}\MediaDownloaderQt5.git\ -DOUTPUT_PATH=${{github.workspace}}\ -DSOURCE_PATH=${{github.workspace}}\MD\ -DCMAKE_VERBOSE_MAKEFILE=FALSE -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G Ninja -S ${{github.workspace}}/MD/ -B ${{github.workspace}}/MD/build5
     -
       name: Print installer script for Qt5
       run : get-content ${{github.workspace}}\MD\build5\media-downloader_windows_installer_Qt5.iss
