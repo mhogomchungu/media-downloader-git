@@ -186,7 +186,7 @@ jobs:
       name: Post Releases
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}\ZWindowsReleaseHashes.txt,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt5-${{ env.RELEASEVERSION }}.setup.exe,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.zip,${{github.workspace}}\MediaDownloaderQt6-${{ env.RELEASEVERSION }}.setup.exe
+        artifacts: ${{github.workspace}}\ZWindowsReleaseHashes.txt,${{github.workspace}}\MediaDownloaderQt5-latest.zip,${{github.workspace}}\MediaDownloaderQt5-latest.setup.exe,${{github.workspace}}\MediaDownloaderQt6-latest.zip,${{github.workspace}}\MediaDownloaderQt6-latest.setup.exe
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
