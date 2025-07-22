@@ -67,6 +67,21 @@ jobs:
     -
       name: Update version.h for Qt5
       run: |
+
+        $data = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build5\version.h")
+
+        $versionInfoLines = $data.Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries)
+
+        $versionInfoFirstLine = $versionInfoLines[0]
+
+        $versionInfo = $versionInfoFirstLine.Split(" ",[System.StringSplitOptions]::RemoveEmptyEntries)[2]
+
+        $VERSION = $versionInfo.Replace(".git_tag","")
+
+        $VERSION = $VERSION.Replace('"',"")
+
+        echo "RELEASEVERSION=$VERSION" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        
         $content = [System.IO.File]::ReadAllText("${{github.workspace}}\MD\build5\version.h").Replace("git_tag",${{ env.GIT_VERSION_NUMBER }})
         [System.IO.File]::WriteAllText("${{github.workspace}}\MD\build5\version.h",$content )
     -
@@ -212,4 +227,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}"
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}\n\nDownloads that contains word \"latest\" has latest released version($RELEASEVERSION)."
