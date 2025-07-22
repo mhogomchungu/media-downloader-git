@@ -227,4 +227,4 @@ jobs:
         tag: "0.0.0"
         commit: "main"
         allowUpdates: true
-        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}\n\nDownloads that contains word \"latest\" has latest released version($RELEASEVERSION)."
+        body: "Build date and time: ${{ env.CURRENT_TIME }}\nBuild version: ${{ env.BUILD_VERSION }}\n\nDownloads that contains word \"latest\" has latest released version(${{ env.RELEASEVERSION }})."
