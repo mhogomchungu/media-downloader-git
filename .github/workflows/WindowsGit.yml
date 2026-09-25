@@ -112,11 +112,13 @@ jobs:
         ${{github.workspace}}/qt5/Qt/${{ env.QT5_VERSION }}/mingw81_32/bin/windeployqt.exe ${{github.workspace}}\MediaDownloaderQt5.git\media-downloader.exe
 
         echo "Extracting archive 3rdParty.zip"
-        echo "(Get-FileHash ${{github.workspace}}\tmp\3rdParty.zip).Hash.ToLower()"
+        $rtp = (Get-FileHash ${{github.workspace}}\tmp\3rdParty.zip).Hash.ToLower()
+        echo "Hash: $rtp"
         Expand-Archive -Path ${{github.workspace}}\tmp\3rdParty.zip -DestinationPath ${{github.workspace}}\MediaDownloaderQt5.git
 
         echo "Extracting archive libs.zip"        
-        echo "(Get-FileHash ${{github.workspace}}\tmp\libs.zip).Hash.ToLower()"
+        $rttp = (Get-FileHash ${{github.workspace}}\tmp\libs.zip).Hash.ToLower()
+        echo "Hash: $rttp"
         Expand-Archive -Path ${{github.workspace}}\tmp\libs.zip -DestinationPath ${{github.workspace}}\tmp
 
         Remove-Item ${{github.workspace}}\MediaDownloaderQt5.git\3rdParty\ytdlp\yt-dlp_x86.exe
