@@ -121,7 +121,6 @@ jobs:
         echo "Hash: $rttp"
         Expand-Archive -Path ${{github.workspace}}\tmp\libs.zip -DestinationPath ${{github.workspace}}\tmp
 
-        Remove-Item ${{github.workspace}}\MediaDownloaderQt5.git\3rdParty\ytdlp\yt-dlp_x86.exe
         Copy-Item -Path ${{github.workspace}}\tmp\yt-dlp_x86.exe -Destination ${{github.workspace}}\MediaDownloaderQt5.git\3rdParty\ytdlp\yt-dlp_x86.exe
 
         Copy-Item ${{github.workspace}}\tmp\libs\* -Destination ${{github.workspace}}\MediaDownloaderQt5.git -Recurse
